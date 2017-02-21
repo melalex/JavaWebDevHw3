@@ -95,6 +95,11 @@ public class BinaryHeapPriorityQueue<K extends Comparable<K>, E> implements Prio
     }
 
     @Override
+    public int size() {
+        return heap.size();
+    }
+
+    @Override
     public void insert(K priority, E value) {
         Node<K, E> node = createNode(priority, value);
         Node<K, E> minValue = getNodeMinValue();
@@ -105,32 +110,19 @@ public class BinaryHeapPriorityQueue<K extends Comparable<K>, E> implements Prio
     }
 
     @Override
-    public void changePriority(int index, K newPriority) {
-
+    public E getMax() {
+        return heap.get(0).value;
     }
 
     @Override
-    public void merge(PriorityQueue<? extends K, ? extends E> other) {
-
-    }
-
-    @Override
-    public E getMinimum() {
-        return null;
-    }
-
-    @Override
-    public E get(int index) {
-        return null;
-    }
-
-    @Override
-    public void extractMinimum() {
-
-    }
-
-    @Override
-    public void remove(int index) {
-
+    public E extractMax() {
+        if (size() == 0) {
+            return null;
+        } else {
+            Node<K, E> max = heap.get(0);
+            heap.set(0, heap.get(size() - 1));
+            heapify(0);
+            return max.value;
+        }
     }
 }
