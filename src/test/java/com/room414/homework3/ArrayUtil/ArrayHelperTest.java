@@ -57,4 +57,42 @@ class ArrayHelperTest {
                 null
         ));
     }
+
+    @Test
+    void mergeAndSort_defaultBehavior_mergedAndSorted() {
+        Integer[] array1 = new Integer[] { 5, 7, 2, 1, 4 };
+        Integer[] array2 = new Integer[] { 9, 8, 3, 6, 0 };
+        Integer[] sortedArrayAnswer = new Integer[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+        Object[] sortedArrayResult = ArrayHelper.mergeAndSort(array1, array2, Comparator.comparingInt(e -> e));
+
+        assert Arrays.equals(sortedArrayAnswer, sortedArrayResult);
+    }
+
+    @Test
+    void mergeAndSort_nullArray1_throwIllegalArgumentException() {
+        assertThrows(IllegalArgumentException.class, () -> ArrayHelper.mergeAndSort(
+                null,
+                new Integer[] { 5, 7, 2, 1, 4, 9, 8, 3, 6, 0 },
+                Comparator.comparingInt(e -> e)
+        ));
+    }
+
+    @Test
+    void mergeAndSort_nullArray2_throwIllegalArgumentException() {
+        assertThrows(IllegalArgumentException.class, () -> ArrayHelper.mergeAndSort(
+                new Integer[] { 5, 7, 2, 1, 4, 9, 8, 3, 6, 0 },
+                null,
+                Comparator.comparingInt(e -> e)
+        ));
+    }
+
+    @Test
+    void mergeAndSort_nullComparator_throwIllegalArgumentException() {
+        assertThrows(IllegalArgumentException.class, () -> ArrayHelper.mergeAndSort(
+                new Integer[] { 5, 7, 2, 1, 4, 9, 8, 3, 6, 0 },
+                new Integer[] { 5, 7, 2, 1, 4, 9, 8, 3, 6, 0 },
+                null
+        ));
+    }
 }
