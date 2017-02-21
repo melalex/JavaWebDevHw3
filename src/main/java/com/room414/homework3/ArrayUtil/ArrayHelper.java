@@ -22,7 +22,7 @@ public class ArrayHelper {
 
         T[] result = array.clone();
 
-        doSort(result, comparator, 0, result.length);
+        doSort(result, comparator, 0, result.length - 1);
 
         return result;
     }
