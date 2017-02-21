@@ -12,6 +12,14 @@ public class ArrayHelper {
     }
 
     public static <T> T[] quickSort(T[] array, Comparator<T> comparator) {
+        if (array == null) {
+            throw new IllegalArgumentException("array can't be null");
+        }
+
+        if (comparator == null) {
+            throw new IllegalArgumentException("comparator can't be null");
+        }
+
         T[] result = array.clone();
 
         doSort(result, comparator, 0, result.length);
