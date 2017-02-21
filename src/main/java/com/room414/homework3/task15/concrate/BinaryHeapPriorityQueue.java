@@ -59,7 +59,15 @@ public class BinaryHeapPriorityQueue<K extends Comparable<K>, E> implements Prio
         }
     }
 
+    private void heapIncreaseKey(int index, Node<K, E> node) {
+        heap.set(index, node);
 
+        int i = index;
+        while (i > 1 && heap.get(i / 2).compareTo(heap.get(i)) < 0) {
+            Collections.swap(heap, i, i / 2);
+            i /= 2;
+        }
+    }
 
     @Override
     public void insert(K priority, E value) {
