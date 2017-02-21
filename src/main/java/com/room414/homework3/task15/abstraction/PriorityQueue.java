@@ -6,7 +6,7 @@ package com.room414.homework3.task15.abstraction;
  */
 public interface PriorityQueue<K extends Comparable<K>, E> {
     void insert(K priority, E value);
-    void chengePriority(int index, K newPriority);
+    void changePriority(int index, K newPriority);
     void merge(PriorityQueue<? extends K, ? extends E> other);
     E getMinimum();
     E get(int index);
