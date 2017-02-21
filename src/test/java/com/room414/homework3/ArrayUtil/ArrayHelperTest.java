@@ -12,6 +12,47 @@ import static org.junit.jupiter.api.Assertions.*;
  * @version 1.0 21 Feb 2017
  */
 class ArrayHelperTest {
+
+    @Test
+    void quickSort_ArrayWithAncestryAndDescendants_sorted() {
+
+        class Ancestor {
+            private int a;
+
+            Ancestor(int a) {
+                this.a = a;
+            }
+        }
+
+        class Descendant extends Ancestor {
+
+            private Descendant(int a) {
+                super(a);
+            }
+        }
+
+
+
+        Ancestor[] array = new Ancestor[] {
+                new Ancestor(9),
+                new Descendant(8),
+                new Ancestor(7),
+                new Descendant(6),
+                new Ancestor(5),
+                new Descendant(4),
+                new Ancestor(3),
+                new Descendant(2),
+                new Ancestor(1),
+                new Descendant(0)
+        };
+
+        Ancestor[] sortedArrayResult = ArrayHelper.quickSort(array, Comparator.comparingInt(e -> e.a));
+
+        for (int i = 0; i < sortedArrayResult.length; i++) {
+            assert sortedArrayResult[i].a == i;
+        }
+    }
+    
     @Test
     void quickSort_sortReversOrderedArray_sorted() {
         Integer[] array = new Integer[] { 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 };
