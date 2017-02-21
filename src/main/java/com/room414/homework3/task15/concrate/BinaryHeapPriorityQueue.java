@@ -3,6 +3,7 @@ package com.room414.homework3.task15.concrate;
 import com.room414.homework3.task15.abstraction.PriorityQueue;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -38,6 +39,27 @@ public class BinaryHeapPriorityQueue<K extends Comparable<K>, E> implements Prio
     private Node<K, E> createNode(K priority, E value) {
         return new Node<>(priority, value);
     }
+
+    private void heapify(int index) {
+        int left = 2 * index;
+        int right = 2 * index + 1;
+        int largest = index;
+
+        if (left <= heap.size() && heap.get(left).compareTo(heap.get(largest)) > 0) {
+            largest = left;
+        }
+
+        if (right <= heap.size() && heap.get(right).compareTo(heap.get(largest)) > 0) {
+            largest = right;
+        }
+
+        if (largest != index) {
+            Collections.swap(heap, index, largest);
+            heapify(largest);
+        }
+    }
+
+
 
     @Override
     public void insert(K priority, E value) {
