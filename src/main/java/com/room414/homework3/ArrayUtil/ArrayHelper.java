@@ -11,7 +11,7 @@ public class ArrayHelper {
 
     }
 
-    public static <T> T[] quickSort(T[] array, Comparator<T> comparator) {
+    public static <T> T[] quickSort(T[] array, Comparator<? super T> comparator) {
         if (array == null) {
             throw new IllegalArgumentException("array can't be null");
         }
@@ -27,7 +27,7 @@ public class ArrayHelper {
         return result;
     }
 
-    private static <T> void doSort(T[] array, Comparator<T> comparator, int start, int end) {
+    private static <T> void doSort(T[] array, Comparator<? super T> comparator, int start, int end) {
         if (start >= end) {
             return;
         }
@@ -56,5 +56,31 @@ public class ArrayHelper {
 
         doSort(array, comparator, start, curr);
         doSort(array, comparator, curr+1, end);
+    }
+
+    public static <T> Object[] mergeAndSort(T[] array1, T[] array2, Comparator<? super T> comparator) {
+        if (array1 == null) {
+            throw new IllegalArgumentException("array1 can't be null");
+        }
+
+        if (array2 == null) {
+            throw new IllegalArgumentException("array2 can't be null");
+        }
+
+        if (comparator == null) {
+            throw new IllegalArgumentException("comparator can't be null");
+        }
+
+        Object[] merged = merge(array1, array2);
+        return quickSort(merged, (e1, e2) -> comparator.compare((T) e1, (T) e2));
+    }
+
+    private static <T> Object[] merge(T[] array1, T[] array2) {
+        Object[] result = new Object[array1.length + array2.length];
+
+        System.arraycopy(array1, 0, result, 0, array1.length);
+        System.arraycopy(array2, 0, result, array1.length, array2.length);
+
+        return result;
     }
 }
