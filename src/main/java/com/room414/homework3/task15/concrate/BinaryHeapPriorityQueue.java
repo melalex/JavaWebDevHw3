@@ -12,10 +12,15 @@ import java.util.List;
  */
 public class BinaryHeapPriorityQueue<K extends Comparable<K>, E> implements PriorityQueue<K, E> {
     private List<Node<K, E>> heap;
+    private Node<K, E> nodeMinValue;
 
     private static class Node<K extends Comparable<K>, E> implements Comparable<Node<K, E>> {
         K priority;
         E value;
+
+        Node() {
+
+        }
 
         Node(K priority, E value) {
             this.priority = priority;
@@ -37,6 +42,14 @@ public class BinaryHeapPriorityQueue<K extends Comparable<K>, E> implements Prio
     }
 
     private Node<K, E> createNode(K priority, E value) {
+        if (priority == null) {
+            throw new IllegalArgumentException("priority can't be null");
+        }
+
+        if (value == null) {
+            throw new IllegalArgumentException("value can't be null");
+        }
+
         return new Node<>(priority, value);
     }
 
@@ -45,11 +58,11 @@ public class BinaryHeapPriorityQueue<K extends Comparable<K>, E> implements Prio
         int right = 2 * index + 1;
         int largest = index;
 
-        if (left <= heap.size() && heap.get(left).compareTo(heap.get(largest)) > 0) {
+        if (left < heap.size() && heap.get(left).compareTo(heap.get(largest)) > 0) {
             largest = left;
         }
 
-        if (right <= heap.size() && heap.get(right).compareTo(heap.get(largest)) > 0) {
+        if (right < heap.size() && heap.get(right).compareTo(heap.get(largest)) > 0) {
             largest = right;
         }
 
@@ -63,15 +76,32 @@ public class BinaryHeapPriorityQueue<K extends Comparable<K>, E> implements Prio
         heap.set(index, node);
 
         int i = index;
-        while (i > 1 && heap.get(i / 2).compareTo(heap.get(i)) < 0) {
+        while (i > 0 && heap.get(i / 2).compareTo(heap.get(i)) < 0) {
             Collections.swap(heap, i, i / 2);
             i /= 2;
         }
     }
 
+    private Node<K, E> getNodeMinValue() {
+        if (nodeMinValue == null) {
+            nodeMinValue = new Node<K, E>() {
+                @Override
+                public int compareTo(Node<K, E> node) {
+                    return -1;
+                }
+            };
+        }
+        return nodeMinValue;
+    }
+
     @Override
     public void insert(K priority, E value) {
+        Node<K, E> node = createNode(priority, value);
+        Node<K, E> minValue = getNodeMinValue();
 
+        heap.add(minValue);
+
+        heapIncreaseKey(heap.size() - 1, node);
     }
 
     @Override
